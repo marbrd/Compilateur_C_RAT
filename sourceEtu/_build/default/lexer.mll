@@ -28,6 +28,9 @@
         "denom",   DENOM;
         "true",    TRUE;
         "false",   FALSE;
+        "new",     NEW;
+        "null",    NULL;
+        "&",       ESPERLUETTE; 
         "return",  RETURN
       ];
     fun id ->

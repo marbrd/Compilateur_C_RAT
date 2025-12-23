@@ -4,6 +4,7 @@
 type token = 
   | WHILE
   | VIRG
+  | UNDEFINED
   | TRUE
   | SLASH
   | RETURN
@@ -14,12 +15,15 @@ type token =
   | PLUS
   | PF
   | NUM
+  | NULL
+  | NEW
   | MULT
   | INT
   | INF
   | IF
   | ID of (string)
   | FALSE
+  | ESPERLUETTE
   | EQUAL
   | EOF
   | ENTIER of (int)

@@ -3,7 +3,7 @@ open Tds
 open Exceptions
 open Ast
 
-type t1 = Ast.AstTds.programme
+(* type t1 = Ast.AstTds.programme
 type t2 = Ast.AstType.programme
 
 let rec analyse_type_expression e = 
@@ -108,4 +108,4 @@ let analyse_type_fonctions lf =
 let analyser (AstTds.Programme (fonctions, prog)) =
   let nfs = analyse_type_fonctions fonctions in
   let nprog = analyse_type_bloc prog in
-  AstType.Programme (nfs, nprog)
+  AstType.Programme (nfs, nprog) *)

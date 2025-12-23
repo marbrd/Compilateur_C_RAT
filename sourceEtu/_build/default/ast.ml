@@ -22,12 +22,17 @@ type unaire = Numerateur | Denominateur
 (* Opérateurs binaires de Rat *)
 type binaire = Fraction | Plus | Mult | Equ | Inf
 
+
 (* Expressions de Rat *)
 type expression =
   (* Appel de fonction représenté par le nom de la fonction et la liste des paramètres réels *)
   | AppelFonction of string * expression list
-  (* Accès à un identifiant représenté par son nom *)
-  | Ident of string
+  (* un affectable *)
+  | Affectable of affectable
+  (*l'adresse d'un identifiant*)
+  | Addresse of string
+  (*definition d'un pointeur de type typ*)
+  | New of typ
   (* Booléen *)
   | Booleen of bool
   (* Entier *)
@@ -36,14 +41,22 @@ type expression =
   | Unaire of unaire * expression
   (* Opération binaire représentée par l'opérateur, l'opérande gauche et l'opérande droite *)
   | Binaire of binaire * expression * expression
+  (*pour la definiton d'un pointeur null*)
+  | Null
+and affectable =
+  (*le nom de l'identifiant d'un affectable*)
+  |Ident of string
+  (*pour déreferencer un affectable*)
+  |Deref of affectable
+
 
 (* Instructions de Rat *)
 type bloc = instruction list
 and instruction =
   (* Déclaration de variable représentée par son type, son nom et l'expression d'initialisation *)
   | Declaration of typ * string * expression
-  (* Affectation d'une variable représentée par son nom et la nouvelle valeur affectée *)
-  | Affectation of string * expression
+  (* Affectation d'un affectable et la nouvelle valeur affectée *)
+  | Affectation of affectable * expression
   (* Déclaration d'une constante représentée par son nom et sa valeur (entier) *)
   | Constante of string * int
   (* Affichage d'une expression *)
@@ -77,11 +90,17 @@ struct
   remplacés par les informations associées aux identificateurs *)
   type expression =
     | AppelFonction of Tds.info_ast * expression list
-    | Ident of Tds.info_ast (* le nom de l'identifiant est remplacé par ses informations *)
+    | Addresse of Tds.info_ast (* le nom de l'identifiant est remplacé par ses informations *)
+    | Affectable of affectable
+    | New of typ
     | Booleen of bool
     | Entier of int
     | Unaire of AstSyntax.unaire * expression
     | Binaire of AstSyntax.binaire * expression * expression
+    | Null
+  and affectable =
+    |Ident of Tds.info_ast (* le nom de l'identifiant est remplacé par ses informations *)
+    |Deref of affectable
 
   (* instructions existantes dans notre langage *)
   (* ~ instruction de l'AST syntaxique où les noms des identifiants ont été
@@ -90,7 +109,7 @@ struct
   type bloc = instruction list
   and instruction =
     | Declaration of typ * Tds.info_ast * expression (* le nom de l'identifiant est remplacé par ses informations *)
-    | Affectation of  Tds.info_ast * expression (* le nom de l'identifiant est remplacé par ses informations *)
+    | Affectation of  affectable * expression (* le nom de l'identifiant est remplacé par ses informations *)
     | Affichage of expression
     | Conditionnelle of expression * bloc * bloc
     | TantQue of expression * bloc

@@ -25,6 +25,7 @@ open Ast.AstSyntax
 %token BOOL
 %token INT
 %token RAT
+%token UNDEFINED
 %token CO
 %token CF
 %token SLASH
@@ -35,6 +36,10 @@ open Ast.AstSyntax
 %token PLUS
 %token MULT
 %token INF
+%token NEW
+%token NULL
+%token ESPERLUETTE
+
 %token EOF
 
 (* Type de l'attribut synthétisé des non-terminaux *)
@@ -42,6 +47,7 @@ open Ast.AstSyntax
 %type <instruction list> bloc
 %type <fonction> fonc
 %type <instruction> i
+%type <affectable> a
 %type <typ> typ
 %type <typ*string> param
 %type <expression> e 
@@ -63,7 +69,7 @@ bloc : AO li=i* AF      {li}
 
 i :
 | t=typ n=ID EQUAL e1=e PV          {Declaration (t,n,e1)}
-| n=ID EQUAL e1=e PV                {Affectation (n,e1)}
+| aff=a EQUAL e1=e PV                {Affectation (aff,e1)}
 | CONST n=ID EQUAL e=ENTIER PV      {Constante (n,e)}
 | PRINT e1=e PV                     {Affichage (e1)}
 | IF exp=e li1=bloc ELSE li2=bloc   {Conditionnelle (exp,li1,li2)}
@@ -74,11 +80,16 @@ typ :
 | BOOL    {Bool}
 | INT     {Int}
 | RAT     {Rat}
+| UNDEFINED     {Undefined}
+| t=typ MULT     {Pointeur(t)}
 
 e : 
 | n=ID PO lp=separated_list(VIRG,e) PF   {AppelFonction (n,lp)}
 | CO e1=e SLASH e2=e CF   {Binaire(Fraction,e1,e2)}
-| n=ID                    {Ident n}
+| aff=a                    {Affectable aff}
+| ESPERLUETTE i=ID      {Addresse i}
+| PO NEW t=typ PF            {New t}
+| NULL                  {Null}
 | TRUE                    {Booleen true}
 | FALSE                   {Booleen false}
 | e=ENTIER                {Entier e}
@@ -91,3 +102,6 @@ e :
 | PO exp=e PF             {exp}
 
 
+a :
+| n=ID {Ident n}
+| PO MULT aff=a PF {Deref aff}

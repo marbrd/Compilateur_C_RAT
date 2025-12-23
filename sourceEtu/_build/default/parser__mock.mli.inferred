@@ -1,6 +1,7 @@
 type token =
     WHILE
   | VIRG
+  | UNDEFINED
   | TRUE
   | SLASH
   | RETURN
@@ -11,12 +12,15 @@ type token =
   | PLUS
   | PF
   | NUM
+  | NULL
+  | NEW
   | MULT
   | INT
   | INF
   | IF
   | ID of string
   | FALSE
+  | ESPERLUETTE
   | EQUAL
   | EOF
   | ENTIER of int
@@ -47,4 +51,5 @@ val xv_i : Ast.AstSyntax.instruction
 val xv_fonc : Ast.AstSyntax.fonction
 val xv_e : Ast.AstSyntax.expression
 val xv_bloc : Ast.AstSyntax.bloc
+val xv_a : Ast.AstSyntax.affectable
 val menhir_end_marker : int
