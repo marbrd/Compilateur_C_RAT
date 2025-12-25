@@ -1,0 +1,6 @@
+test {
+  int x = 0;
+  int* p = &x;
+  int** pp = &p;
+  (*(*pp)) = 42;
+}

@@ -3,8 +3,22 @@ open Tds
 open Exceptions
 open Ast
 
-(* type t1 = Ast.AstTds.programme
+type t1 = Ast.AstTds.programme
 type t2 = Ast.AstType.programme
+
+let rec analyse_type_affectable aff =
+  match aff with
+  | AstTds.Ident info -> 
+     begin
+      match info_ast_to_info info with
+      | InfoVar (_,t,_,_) | InfoFun (_,t,_) -> (AstType.Ident info, t)
+      | InfoConst (_,_) -> (AstType.Ident info, Int)
+    end
+  | AstTds.Deref aff -> 
+    let (naff, t) = analyse_type_affectable aff in
+    match t with
+    | Pointeur tt -> (AstType.Deref naff, tt)
+    | _ -> raise (TypeInattendu ((Pointeur Undefined),t))
 
 let rec analyse_type_expression e = 
   match e with
@@ -18,12 +32,9 @@ let rec analyse_type_expression e =
         else raise (TypesParametresInattendus(tp,tlp))
       | _ -> failwith "erreur interne"
     end
-  | AstTds.Ident info -> 
-    begin
-      match info_ast_to_info info with
-      | InfoVar (_,t,_,_) | InfoFun (_,t,_) -> (AstType.Ident info, t)
-      | InfoConst (_,_) -> (AstType.Ident info, Int)
-    end
+  | AstTds.Affectable aff -> 
+    let (naff, t) = analyse_type_affectable aff in
+    (AstType.Affectable naff, t)
   | AstTds.Unaire (op, e1) -> 
     let (ne1, te1) = analyse_type_expression e1 in
     if (est_compatible te1 Rat) then 
@@ -50,21 +61,25 @@ let rec analyse_type_expression e =
     end
   | AstTds.Booleen b -> (AstType.Booleen b, Bool)
   | AstTds.Entier i -> (AstType.Entier i, Int)
+  | AstTds.Adresse info -> 
+    begin
+      match info_ast_to_info info with
+      | InfoVar (_,t,_,_) -> (AstType.Adresse info, Pointeur t)
+      | _ -> failwith "erreur interne"
+    end
+  | AstTds.New t -> (AstType.New t, Pointeur t)
+  | AstTds.Null -> (AstType.Null, Pointeur Undefined)
 let rec analyse_type_instruction i = 
   match i with
   | AstTds.Declaration (t, info, e) -> 
     let (ne,te) = analyse_type_expression e in
     if est_compatible t te then (modifier_type_variable t info; AstType.Declaration (info, ne))
     else raise (TypeInattendu (te, t))
-  | AstTds.Affectation (info, e) -> 
+  | AstTds.Affectation (aff, e) -> 
     let (ne,te) = analyse_type_expression e in
-    begin 
-      match (info_ast_to_info info) with 
-      |InfoVar(_,t,_,_) -> 
-        if est_compatible t te then AstType.Affectation (info, ne)
-        else raise (TypeInattendu (te, t))
-      | _ -> failwith "erreur interne"
-    end
+    let (naff,t) = analyse_type_affectable aff in
+    if est_compatible t te then AstType.Affectation (naff, ne)
+    else raise (TypeInattendu (te, t))
   | AstTds.Affichage e -> 
     let (ne, te) = analyse_type_expression e in
     begin
@@ -72,7 +87,11 @@ let rec analyse_type_instruction i =
       | Int -> AstType.AffichageInt ne
       | Bool -> AstType.AffichageBool ne
       | Rat -> AstType.AffichageRat ne
-      | Undefined -> failwith "erreur interne"
+      | Pointeur Int -> AstType.AffichagePointeurInt ne
+      | Pointeur Bool -> AstType.AffichagePointeurBool ne
+      | Pointeur Rat -> AstType.AffichagePointeurRat ne
+      | Pointeur Undefined -> AstType.AffichagePointeurUndefined ne
+      | Undefined | Pointeur _ -> failwith "erreur interne"
     end
   | AstTds.Conditionnelle (c, t, e) -> 
     let (nc, te) = analyse_type_expression c in
@@ -108,4 +127,4 @@ let analyse_type_fonctions lf =
 let analyser (AstTds.Programme (fonctions, prog)) =
   let nfs = analyse_type_fonctions fonctions in
   let nprog = analyse_type_bloc prog in
-  AstType.Programme (nfs, nprog) *)
+  AstType.Programme (nfs, nprog) 

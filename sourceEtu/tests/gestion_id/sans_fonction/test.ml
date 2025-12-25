@@ -34,6 +34,15 @@ let%test_unit "testAffectation4" =
   with
   | MauvaiseUtilisationIdentifiant("x") -> ()
 
+let%test_unit "test.rat" =
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
+
+let%test_unit "testDeref.rat" =
+  let _ = compiler (pathFichiersRat^"testDeref.rat") in ()
+
+let%test_unit "testPointeurSurPointeur.rat" =
+  let _ = compiler (pathFichiersRat^"testPointeurSurPointeur.rat") in ()
+
 let%test_unit "testUtilisation1" = 
   let _ = compiler (pathFichiersRat^"testUtilisation1.rat") in ()
 

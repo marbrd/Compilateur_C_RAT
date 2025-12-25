@@ -13,7 +13,21 @@ let pathFichiersRat = "../../../../../tests/type/sans_fonction/fichiersRat/"
 (**********)
 (*  TESTS *)
 (**********)
+let%test_unit "test.rat" =
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
 
+let%test_unit "testPasPointeur.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPasPointeur.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Pointeur Undefined, Int) -> () 
+
+let%test_unit "testDeref.rat" =
+  let _ = compiler (pathFichiersRat^"testDeref.rat") in ()
+
+let%test_unit "testPointeurSurPointeur.rat" =
+  let _ = compiler (pathFichiersRat^"testPointeurSurPointeur.rat") in ()
 
 let%test_unit "testDeclaration1"= 
   let _ = compiler (pathFichiersRat^"testDeclaration1.rat") in ()

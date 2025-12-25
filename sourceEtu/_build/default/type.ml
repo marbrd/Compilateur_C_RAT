@@ -5,15 +5,16 @@ let rec string_of_type t =
   | Bool ->  "Bool"
   | Int  ->  "Int"
   | Rat  ->  "Rat"
-  | Undefined -> "Undefined"
-  | Pointeur(a) -> "Pointeur("^(string_of_type a)^")"
+  | Undefined -> "Undefined" 
+  | Pointeur(a) -> "Pointeur("^(string_of_type a)^")" 
 
 
-let est_compatible t1 t2 =
+let rec est_compatible t1 t2 =
   match t1, t2 with
   | Bool, Bool -> true
   | Int, Int -> true
   | Rat, Rat -> true 
+  | Pointeur t1, Pointeur t2 -> est_compatible t1 t2
   | _ -> false 
 
 let%test _ = est_compatible Bool Bool
@@ -46,13 +47,13 @@ let%test _ = not (est_compatible_list [Int] [Rat ; Int])
 let%test _ = not (est_compatible_list [Int ; Rat] [Rat ; Int])
 let%test _ = not (est_compatible_list [Bool ; Rat ; Bool] [Bool ; Rat ; Bool ; Int])
 
-let rec getTaille t =
+let getTaille t =
   match t with
   | Int -> 1
   | Bool -> 1
   | Rat -> 2
-  | Undefined -> 0
-  | Pointeur t -> getTaille t
+  | Undefined -> 0 
+  | Pointeur _ -> 1
   
 let%test _ = getTaille Int = 1
 let%test _ = getTaille Bool = 1

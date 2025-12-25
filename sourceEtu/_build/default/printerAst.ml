@@ -54,10 +54,10 @@ struct
   let rec string_of_expression e =
     match e with
     | AppelFonction (n,le) -> "call "^n^"("^((List.fold_right (fun i tq -> (string_of_expression i)^tq) le ""))^") "
-    | Affectable aff -> " "
+    | Affectable aff -> " "(*
     | Addresse n -> n^" "
     | Null -> "Null"
-    | New t -> "New"^(string_of_type t)
+    | New t -> "New"^(string_of_type t) *)
     | Booleen b -> if b then "true " else "false "
     | Entier i -> (string_of_int i)^" "
     | Unaire (op,e1) -> (string_of_unaire op) ^ (string_of_expression e1)^" "

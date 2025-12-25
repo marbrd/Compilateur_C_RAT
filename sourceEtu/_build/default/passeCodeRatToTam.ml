@@ -16,7 +16,7 @@ let rec analyse_code_expression e =
       | InfoFun (n,_,_) -> cle^(call "SB" n)
       | _ -> failwith "erreur interne"
     end
-  | AstType.Ident info -> 
+  | AstType.Affectable (AstType.Ident (info)) -> 
     begin
       match info_ast_to_info info with
       | InfoVar(_,t,dep,reg) -> load (getTaille t) dep reg
@@ -58,7 +58,7 @@ let rec analyse_code_instruction i =
         ^ store (getTaille t) dep reg
       | _ -> failwith "erreur interne"
     end
-  | AstPlacement.Affectation (info, e) -> 
+  | AstPlacement.Affectation (AstType.Ident info, e) -> 
     begin
       match info_ast_to_info info with
       | InfoVar(_,t,dep,reg) -> 

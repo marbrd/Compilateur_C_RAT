@@ -26,16 +26,13 @@ let rec analyse_placement_instruction i depl reg =
       | InfoFun (_,tr,tp) -> (AstPlacement.Retour (e, getTaille tr, List.fold_right (fun t q -> q + (getTaille t)) tp 0), 0)
       | _ -> failwith "erreur interne"
     end
-  | AstType.Affectation (ia, e) -> (AstPlacement.Affectation (ia, e), 0)
+  | AstType.Affectation (aff, e) -> (AstPlacement.Affectation (aff, e), 0)
   | AstType.AffichageInt e -> (AstPlacement.AffichageInt e, 0)
   | AstType.AffichageRat e -> (AstPlacement.AffichageRat e, 0)
   | AstType.AffichageBool e -> (AstPlacement.AffichageBool e, 0)
   | AstType.Empty -> (AstPlacement.Empty, 0)
 
 and analyse_placement_bloc li depl reg = 
-  (*let lli = (List.map (fun t -> analyse_placement_instruction t depl reg) li) in
-    (fst (List.split lli), 
-    List.fold_right (fun (t,n) q -> q + n) lli 0)*)
   begin
     match li with
     | [] -> ([],0)

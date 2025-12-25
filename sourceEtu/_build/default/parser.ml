@@ -299,23 +299,23 @@ and _menhir_box_main =
 let _menhir_action_01 =
   fun n ->
     (
-# 106 "parser.mly"
-       (Ident n)
+# 105 "parser.mly"
+                           (Ident n)
 # 305 "parser.ml"
      : (Ast.AstSyntax.affectable))
 
 let _menhir_action_02 =
   fun aff ->
     (
-# 107 "parser.mly"
-                   (Deref aff)
+# 106 "parser.mly"
+                           (Deref aff)
 # 313 "parser.ml"
      : (Ast.AstSyntax.affectable))
 
 let _menhir_action_03 =
   fun li ->
     (
-# 68 "parser.mly"
+# 67 "parser.mly"
                         (li)
 # 321 "parser.ml"
      : (Ast.AstSyntax.bloc))
@@ -328,7 +328,7 @@ let _menhir_action_04 =
 # 329 "parser.ml"
      in
     (
-# 87 "parser.mly"
+# 86 "parser.mly"
                                          (AppelFonction (n,lp))
 # 334 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -336,7 +336,7 @@ let _menhir_action_04 =
 let _menhir_action_05 =
   fun e1 e2 ->
     (
-# 88 "parser.mly"
+# 87 "parser.mly"
                           (Binaire(Fraction,e1,e2))
 # 342 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -344,39 +344,39 @@ let _menhir_action_05 =
 let _menhir_action_06 =
   fun aff ->
     (
-# 89 "parser.mly"
-                           (Affectable aff)
+# 88 "parser.mly"
+                          (Affectable aff)
 # 350 "parser.ml"
      : (Ast.AstSyntax.expression))
 
 let _menhir_action_07 =
   fun i ->
     (
-# 90 "parser.mly"
-                        (Addresse i)
+# 89 "parser.mly"
+                          (Adresse i)
 # 358 "parser.ml"
      : (Ast.AstSyntax.expression))
 
 let _menhir_action_08 =
   fun t ->
     (
-# 91 "parser.mly"
-                             (New t)
+# 90 "parser.mly"
+                          (New t)
 # 366 "parser.ml"
      : (Ast.AstSyntax.expression))
 
 let _menhir_action_09 =
   fun () ->
     (
-# 92 "parser.mly"
-                        (Null)
+# 91 "parser.mly"
+                          (Null)
 # 374 "parser.ml"
      : (Ast.AstSyntax.expression))
 
 let _menhir_action_10 =
   fun () ->
     (
-# 93 "parser.mly"
+# 92 "parser.mly"
                           (Booleen true)
 # 382 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -384,7 +384,7 @@ let _menhir_action_10 =
 let _menhir_action_11 =
   fun () ->
     (
-# 94 "parser.mly"
+# 93 "parser.mly"
                           (Booleen false)
 # 390 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -392,7 +392,7 @@ let _menhir_action_11 =
 let _menhir_action_12 =
   fun e ->
     (
-# 95 "parser.mly"
+# 94 "parser.mly"
                           (Entier e)
 # 398 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -400,7 +400,7 @@ let _menhir_action_12 =
 let _menhir_action_13 =
   fun e1 ->
     (
-# 96 "parser.mly"
+# 95 "parser.mly"
                           (Unaire(Numerateur,e1))
 # 406 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -408,7 +408,7 @@ let _menhir_action_13 =
 let _menhir_action_14 =
   fun e1 ->
     (
-# 97 "parser.mly"
+# 96 "parser.mly"
                           (Unaire(Denominateur,e1))
 # 414 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -416,7 +416,7 @@ let _menhir_action_14 =
 let _menhir_action_15 =
   fun e1 e2 ->
     (
-# 98 "parser.mly"
+# 97 "parser.mly"
                           (Binaire (Plus,e1,e2))
 # 422 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -424,7 +424,7 @@ let _menhir_action_15 =
 let _menhir_action_16 =
   fun e1 e2 ->
     (
-# 99 "parser.mly"
+# 98 "parser.mly"
                           (Binaire (Mult,e1,e2))
 # 430 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -432,7 +432,7 @@ let _menhir_action_16 =
 let _menhir_action_17 =
   fun e1 e2 ->
     (
-# 100 "parser.mly"
+# 99 "parser.mly"
                           (Binaire (Equ,e1,e2))
 # 438 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -440,7 +440,7 @@ let _menhir_action_17 =
 let _menhir_action_18 =
   fun e1 e2 ->
     (
-# 101 "parser.mly"
+# 100 "parser.mly"
                           (Binaire (Inf,e1,e2))
 # 446 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -448,7 +448,7 @@ let _menhir_action_18 =
 let _menhir_action_19 =
   fun exp ->
     (
-# 102 "parser.mly"
+# 101 "parser.mly"
                           (exp)
 # 454 "parser.ml"
      : (Ast.AstSyntax.expression))
@@ -461,7 +461,7 @@ let _menhir_action_20 =
 # 462 "parser.ml"
      in
     (
-# 64 "parser.mly"
+# 63 "parser.mly"
                                                               (Fonction(t,n,lp,li))
 # 467 "parser.ml"
      : (Ast.AstSyntax.fonction))
@@ -469,7 +469,7 @@ let _menhir_action_20 =
 let _menhir_action_21 =
   fun e1 n t ->
     (
-# 71 "parser.mly"
+# 70 "parser.mly"
                                     (Declaration (t,n,e1))
 # 475 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -477,15 +477,15 @@ let _menhir_action_21 =
 let _menhir_action_22 =
   fun aff e1 ->
     (
-# 72 "parser.mly"
-                                     (Affectation (aff,e1))
+# 71 "parser.mly"
+                                    (Affectation (aff,e1))
 # 483 "parser.ml"
      : (Ast.AstSyntax.instruction))
 
 let _menhir_action_23 =
   fun e n ->
     (
-# 73 "parser.mly"
+# 72 "parser.mly"
                                     (Constante (n,e))
 # 491 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -493,7 +493,7 @@ let _menhir_action_23 =
 let _menhir_action_24 =
   fun e1 ->
     (
-# 74 "parser.mly"
+# 73 "parser.mly"
                                     (Affichage (e1))
 # 499 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -501,7 +501,7 @@ let _menhir_action_24 =
 let _menhir_action_25 =
   fun exp li1 li2 ->
     (
-# 75 "parser.mly"
+# 74 "parser.mly"
                                     (Conditionnelle (exp,li1,li2))
 # 507 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -509,7 +509,7 @@ let _menhir_action_25 =
 let _menhir_action_26 =
   fun exp li ->
     (
-# 76 "parser.mly"
+# 75 "parser.mly"
                                     (TantQue (exp,li))
 # 515 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -517,7 +517,7 @@ let _menhir_action_26 =
 let _menhir_action_27 =
   fun exp ->
     (
-# 77 "parser.mly"
+# 76 "parser.mly"
                                     (Retour (exp))
 # 523 "parser.ml"
      : (Ast.AstSyntax.instruction))
@@ -589,7 +589,7 @@ let _menhir_action_35 =
 let _menhir_action_36 =
   fun lfi ->
     (
-# 60 "parser.mly"
+# 59 "parser.mly"
                         (lfi)
 # 595 "parser.ml"
      : (Ast.AstSyntax.programme))
@@ -597,7 +597,7 @@ let _menhir_action_36 =
 let _menhir_action_37 =
   fun n t ->
     (
-# 66 "parser.mly"
+# 65 "parser.mly"
                     ((t,n))
 # 603 "parser.ml"
      : (Type.typ * string))
@@ -605,7 +605,7 @@ let _menhir_action_37 =
 let _menhir_action_38 =
   fun lf li ->
     (
-# 62 "parser.mly"
+# 61 "parser.mly"
                             (Programme (lf,li))
 # 611 "parser.ml"
      : (Ast.AstSyntax.programme))
@@ -645,31 +645,31 @@ let _menhir_action_42 =
 let _menhir_action_43 =
   fun () ->
     (
-# 80 "parser.mly"
-          (Bool)
+# 79 "parser.mly"
+                (Bool)
 # 651 "parser.ml"
      : (Type.typ))
 
 let _menhir_action_44 =
   fun () ->
     (
-# 81 "parser.mly"
-          (Int)
+# 80 "parser.mly"
+                (Int)
 # 659 "parser.ml"
      : (Type.typ))
 
 let _menhir_action_45 =
   fun () ->
     (
-# 82 "parser.mly"
-          (Rat)
+# 81 "parser.mly"
+                (Rat)
 # 667 "parser.ml"
      : (Type.typ))
 
 let _menhir_action_46 =
   fun () ->
     (
-# 83 "parser.mly"
+# 82 "parser.mly"
                 (Undefined)
 # 675 "parser.ml"
      : (Type.typ))
@@ -677,8 +677,8 @@ let _menhir_action_46 =
 let _menhir_action_47 =
   fun t ->
     (
-# 84 "parser.mly"
-                 (Pointeur(t))
+# 83 "parser.mly"
+                (Pointeur(t))
 # 683 "parser.ml"
      : (Type.typ))
 
