@@ -1,4 +1,4 @@
-# dune runtest ./tests/type/sans_fonction/
+# dune runtest ./tests/tam/sans_fonction/
 # OCAMLPARAM: unset
 # Shared cache: enabled-except-user-rules
 # Shared cache location: /home/marouane/.cache/dune/db
@@ -13,4 +13,4 @@
 #  ; build_dir = In_build_dir "default"
 #  ; instrument_with = []
 #  }
-$ /home/marouane/.opam/5.1.1/bin/ocamlc.opt -config > /tmp/dune_180222_output
+$ /home/marouane/.opam/5.1.1/bin/ocamlc.opt -config > /tmp/dune_15a85e_output

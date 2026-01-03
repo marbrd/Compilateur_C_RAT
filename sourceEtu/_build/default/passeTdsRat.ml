@@ -11,7 +11,7 @@ type t2 = Ast.AstTds.programme
 exception Constant of int*string
 
  (*l'analyse d'un affectable*)
-let rec analyse_tds_affectable tds a =
+let rec analyse_tds_affectable tds a lec =
     match a with
     | AstSyntax.Ident n -> 
       begin
@@ -20,13 +20,13 @@ let rec analyse_tds_affectable tds a =
         | Some a -> 
         begin 
           match (info_ast_to_info a) with 
-          | InfoVar (_,_,_,_) -> AstTds.Ident a
-          | InfoConst (c,n) -> raise (Constant (n,c))
+          | InfoVar _ -> AstTds.Ident a
+          | InfoConst _ -> if lec then AstTds.Ident a else raise (MauvaiseUtilisationIdentifiant n)
           | _ -> raise (MauvaiseUtilisationIdentifiant n)
         end 
       end
     | AstSyntax.Deref r -> 
-      let nr = analyse_tds_affectable tds r in 
+      let nr = analyse_tds_affectable tds r lec in 
       AstTds.Deref nr
     
 
@@ -43,12 +43,8 @@ let rec analyse_tds_expression tds e =
   | AstSyntax.Entier i -> AstTds.Entier i
   
   | AstSyntax.Affectable aff -> 
-    begin
-      try 
-        AstTds.Affectable (analyse_tds_affectable tds aff)
-      with
-      | Constant (n,_) -> AstTds.Entier n
-    end
+    AstTds.Affectable (analyse_tds_affectable tds aff true)
+
   | AstSyntax.New t -> AstTds.New t
 
   | AstSyntax.Null -> AstTds.Null
@@ -172,12 +168,9 @@ let rec analyse_tds_instruction tds oia i =
         AstTds.Retour (ne,ia)
       end
   | AstSyntax.Affectation (aff,e) ->
-    try
-      let naff = analyse_tds_affectable tds aff in
-      let ne = analyse_tds_expression tds e in
-      AstTds.Affectation (naff, ne)
-    with
-    | Constant (_,c) -> raise (MauvaiseUtilisationIdentifiant c)
+    let naff = analyse_tds_affectable tds aff false in
+    let ne = analyse_tds_expression tds e in
+    AstTds.Affectation (naff, ne)
 
 
 

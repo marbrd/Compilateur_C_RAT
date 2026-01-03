@@ -7,6 +7,26 @@ open Tds
 type t1 = Ast.AstPlacement.programme
 type t2 = string
 
+let rec analyse_code_affectable aff lec = 
+  match aff with
+  | AstType.Ident info ->
+    begin
+      match info_ast_to_info info with
+      | InfoVar (_,t,dep,reg) -> 
+        let len = (getTaille t) in
+        if not lec then (store len dep reg, len) 
+        else (load len dep reg , len)
+      | InfoConst (_,n) -> (loadl_int n, 1)
+      | _ -> failwith "erreur interne"
+    end
+  | AstType.Deref r -> 
+    let (an,l) = (analyse_code_affectable r true) in
+      let trait = 
+        if lec then loadi l 
+        else storei l in
+          (an
+          ^ trait, 0)
+
 let rec analyse_code_expression e = 
   match e with
   | AstType.AppelFonction (info, le) -> 
@@ -16,12 +36,8 @@ let rec analyse_code_expression e =
       | InfoFun (n,_,_) -> cle^(call "SB" n)
       | _ -> failwith "erreur interne"
     end
-  | AstType.Affectable (AstType.Ident (info)) -> 
-    begin
-      match info_ast_to_info info with
-      | InfoVar(_,t,dep,reg) -> load (getTaille t) dep reg
-      | _ -> failwith "erreur interne"
-    end
+  | AstType.Affectable aff -> 
+    fst (analyse_code_affectable aff true)
   | AstType.Booleen b -> if b then loadl_int 1 else loadl_int 0
   | AstType.Entier i -> loadl_int i
   | AstType.Binaire (op, e1, e2) -> 
@@ -46,6 +62,16 @@ let rec analyse_code_expression e =
       | Numerateur -> pop 0 1
       | Denominateur -> pop 1 1
     )
+  | AstType.Null -> failwith ""
+  | AstType.New t -> 
+    loadl_int (getTaille t)
+    ^ subr "MAlloc"
+  | AstType.Adresse info -> 
+    begin
+      match info_ast_to_info info with
+      | InfoVar(_,_,dep,reg) -> loada dep reg
+      | _ -> failwith "erreur interne"
+    end 
 
 let rec analyse_code_instruction i =
   match i with 
@@ -58,14 +84,9 @@ let rec analyse_code_instruction i =
         ^ store (getTaille t) dep reg
       | _ -> failwith "erreur interne"
     end
-  | AstPlacement.Affectation (AstType.Ident info, e) -> 
-    begin
-      match info_ast_to_info info with
-      | InfoVar(_,t,dep,reg) -> 
-        analyse_code_expression e
-        ^ store (getTaille t) dep reg
-      | _ -> failwith "erreur interne"
-    end
+  | AstPlacement.Affectation (aff, e) -> 
+    analyse_code_expression e
+    ^ fst (analyse_code_affectable aff false)
   | AstPlacement.AffichageInt e -> 
     analyse_code_expression e
     ^ subr "IOut"

@@ -4,6 +4,7 @@ open Type
 module type Ast =
 sig
    type expression
+   type affectable
    type instruction
    type fonction
    type programme
@@ -164,10 +165,6 @@ type bloc = instruction list
   | AffichageInt of expression
   | AffichageRat of expression
   | AffichageBool of expression
-  | AffichagePointeurInt of expression
-  | AffichagePointeurBool of expression
-  | AffichagePointeurRat of expression
-  | AffichagePointeurUndefined of expression
   | Conditionnelle of expression * bloc * bloc
   | TantQue of expression * bloc
   | Retour of expression * Tds.info_ast

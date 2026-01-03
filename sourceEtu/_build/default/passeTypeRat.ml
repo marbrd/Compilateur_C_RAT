@@ -11,8 +11,9 @@ let rec analyse_type_affectable aff =
   | AstTds.Ident info -> 
      begin
       match info_ast_to_info info with
-      | InfoVar (_,t,_,_) | InfoFun (_,t,_) -> (AstType.Ident info, t)
-      | InfoConst (_,_) -> (AstType.Ident info, Int)
+      | InfoVar (_,t,_,_) -> (AstType.Ident info, t)
+      | InfoConst _ -> (AstType.Ident info, Int)
+      | _ -> failwith "erreur interne"
     end
   | AstTds.Deref aff -> 
     let (naff, t) = analyse_type_affectable aff in
@@ -84,14 +85,10 @@ let rec analyse_type_instruction i =
     let (ne, te) = analyse_type_expression e in
     begin
       match te with
-      | Int -> AstType.AffichageInt ne
+      | Int -> AstType.AffichageInt ne  
       | Bool -> AstType.AffichageBool ne
       | Rat -> AstType.AffichageRat ne
-      | Pointeur Int -> AstType.AffichagePointeurInt ne
-      | Pointeur Bool -> AstType.AffichagePointeurBool ne
-      | Pointeur Rat -> AstType.AffichagePointeurRat ne
-      | Pointeur Undefined -> AstType.AffichagePointeurUndefined ne
-      | Undefined | Pointeur _ -> failwith "erreur interne"
+      | _ -> raise (TypeInattendu (te, Int))
     end
   | AstTds.Conditionnelle (c, t, e) -> 
     let (nc, te) = analyse_type_expression c in
@@ -115,6 +112,8 @@ let rec analyse_type_instruction i =
   | AstTds.Empty -> AstType.Empty
 and analyse_type_bloc li = 
   List.map analyse_type_instruction li
+
+
 let analyse_type_fonction (AstTds.Fonction(t,info,lp,li)) = 
   let (tp,_) = List.split lp in
   let np = List.map (fun (t,infop) -> modifier_type_variable t infop; infop) lp in
@@ -124,6 +123,8 @@ let analyse_type_fonction (AstTds.Fonction(t,info,lp,li)) =
 
 let analyse_type_fonctions lf = 
   List.map analyse_type_fonction lf
+
+
 let analyser (AstTds.Programme (fonctions, prog)) =
   let nfs = analyse_type_fonctions fonctions in
   let nprog = analyse_type_bloc prog in
