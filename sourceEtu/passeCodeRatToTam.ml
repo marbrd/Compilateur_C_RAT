@@ -62,7 +62,7 @@ let rec analyse_code_expression e =
       | Numerateur -> pop 0 1
       | Denominateur -> pop 1 1
     )
-  | AstType.Null -> failwith ""
+  | AstType.Null -> subr "MVoid"
   | AstType.New t -> 
     loadl_int (getTaille t)
     ^ subr "MAlloc"

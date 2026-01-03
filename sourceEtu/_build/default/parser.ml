@@ -9,8 +9,8 @@ module MenhirBasics = struct
   
   type token = 
     | WHILE
+    | VOID
     | VIRG
-    | UNDEFINED
     | TRUE
     | SLASH
     | RETURN
@@ -670,7 +670,7 @@ let _menhir_action_46 =
   fun () ->
     (
 # 82 "parser.mly"
-                (Undefined)
+                (Void)
 # 675 "parser.ml"
      : (Type.typ))
 
@@ -745,10 +745,10 @@ let _menhir_print_token : token -> string =
         "SLASH"
     | TRUE ->
         "TRUE"
-    | UNDEFINED ->
-        "UNDEFINED"
     | VIRG ->
         "VIRG"
+    | VOID ->
+        "VOID"
     | WHILE ->
         "WHILE"
 
@@ -913,7 +913,7 @@ include struct
       match (_tok : MenhirBasics.token) with
       | WHILE ->
           _menhir_run_018 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState091
-      | UNDEFINED ->
+      | VOID ->
           _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState091
       | RETURN ->
           _menhir_run_068 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState091
@@ -987,7 +987,7 @@ include struct
           let _menhir_s = MenhirState044 in
           let _tok = _menhir_lexer _menhir_lexbuf in
           (match (_tok : MenhirBasics.token) with
-          | UNDEFINED ->
+          | VOID ->
               _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
           | RAT ->
               _menhir_run_002 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
@@ -1492,7 +1492,7 @@ include struct
       let _v = _menhir_action_20 li n t xs in
       let _menhir_stack = MenhirCell1_fonc (_menhir_stack, _menhir_s, _v) in
       match (_tok : MenhirBasics.token) with
-      | UNDEFINED ->
+      | VOID ->
           _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState104
       | RAT ->
           _menhir_run_002 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState104
@@ -1546,7 +1546,7 @@ include struct
       match (_tok : MenhirBasics.token) with
       | WHILE ->
           _menhir_run_018 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState017
-      | UNDEFINED ->
+      | VOID ->
           _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState017
       | RETURN ->
           _menhir_run_068 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState017
@@ -1983,7 +1983,7 @@ include struct
               let _menhir_s = MenhirState013 in
               let _tok = _menhir_lexer _menhir_lexbuf in
               (match (_tok : MenhirBasics.token) with
-              | UNDEFINED ->
+              | VOID ->
                   _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
               | RAT ->
                   _menhir_run_002 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
@@ -2050,7 +2050,7 @@ include struct
               let _menhir_s = MenhirState008 in
               let _tok = _menhir_lexer _menhir_lexbuf in
               (match (_tok : MenhirBasics.token) with
-              | UNDEFINED ->
+              | VOID ->
                   _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
               | RAT ->
                   _menhir_run_002 _menhir_stack _menhir_lexbuf _menhir_lexer _menhir_s
@@ -2072,7 +2072,7 @@ include struct
     fun _menhir_stack _menhir_lexbuf _menhir_lexer ->
       let _tok = _menhir_lexer _menhir_lexbuf in
       match (_tok : MenhirBasics.token) with
-      | UNDEFINED ->
+      | VOID ->
           _menhir_run_001 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState000
       | RAT ->
           _menhir_run_002 _menhir_stack _menhir_lexbuf _menhir_lexer MenhirState000

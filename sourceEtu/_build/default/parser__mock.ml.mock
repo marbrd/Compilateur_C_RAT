@@ -1,8 +1,8 @@
 
 type token = 
   | WHILE
+  | VOID
   | VIRG
-  | UNDEFINED
   | TRUE
   | SLASH
   | RETURN
@@ -259,7 +259,7 @@ and (xv_typ, xv_separated_nonempty_list_VIRG_param_, xv_separated_nonempty_list_
   ) ->
     (
 # 82 "parser.mly"
-                (Undefined)
+                (Void)
 # 264 "parser__mock.ml.mock"
      : 'tv_typ) in
   let _ = fun (_startpos : Lexing.position) (_endpos : Lexing.position) (_endpos__0_ : Lexing.position) (_symbolstartpos : Lexing.position) (_startofs : int) (_endofs : int) (_endofs__0_ : int) (_symbolstartofs : int) (_sloc : Lexing.position * Lexing.position) (_loc : Lexing.position * Lexing.position) (

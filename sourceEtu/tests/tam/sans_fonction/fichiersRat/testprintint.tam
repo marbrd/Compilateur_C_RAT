@@ -1,0 +1,4 @@
+; /home/bme4337/2A/projet_n7/projet_enseeiht/TP_Compilation/sourceEtu/tests/tam/sans_fonction/fichiersRat/testprintint.rat
+LOADL 42
+SUBR IOut
+POP (0) 0

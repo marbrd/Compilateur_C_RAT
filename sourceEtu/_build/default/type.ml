@@ -1,10 +1,11 @@
-type typ = Bool | Int | Rat | Undefined | Pointeur of typ
+type typ = Bool | Int | Rat | Undefined | Pointeur of typ | Void
 
 let rec string_of_type t = 
   match t with
   | Bool ->  "Bool"
   | Int  ->  "Int"
   | Rat  ->  "Rat"
+  | Void -> "Void"
   | Undefined -> "Undefined" 
   | Pointeur(a) -> "Pointeur("^(string_of_type a)^")" 
 
@@ -14,6 +15,8 @@ let rec est_compatible t1 t2 =
   | Bool, Bool -> true
   | Int, Int -> true
   | Rat, Rat -> true 
+  | Pointeur Undefined, Pointeur Undefined -> false
+  | Pointeur _, Pointeur Undefined -> true
   | Pointeur t1, Pointeur t2 -> est_compatible t1 t2
   | _ -> false 
 
@@ -52,6 +55,7 @@ let getTaille t =
   | Int -> 1
   | Bool -> 1
   | Rat -> 2
+  | Void -> 0
   | Undefined -> 0 
   | Pointeur _ -> 1
   

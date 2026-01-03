@@ -15,6 +15,7 @@ open Ast.AstSyntax
 %token AO
 %token AF
 %token PF
+%token VOID
 %token PO
 %token EQUAL
 %token CONST
@@ -25,7 +26,6 @@ open Ast.AstSyntax
 %token BOOL
 %token INT
 %token RAT
-%token UNDEFINED
 %token CO
 %token CF
 %token SLASH
@@ -79,7 +79,7 @@ typ :
 | BOOL          {Bool}
 | INT           {Int}
 | RAT           {Rat}
-| UNDEFINED     {Undefined} 
+| VOID          {Void}
 | t=typ MULT    {Pointeur(t)}
 
 e : 

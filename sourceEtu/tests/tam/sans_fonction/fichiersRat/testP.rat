@@ -4,5 +4,6 @@ main {
     int z = 18;
     int* y = &z;
     (*y) = (*x);
+    int* a = null;
     print (*y);
 }

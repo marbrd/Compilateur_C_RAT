@@ -3,8 +3,8 @@
 
 type token = 
   | WHILE
+  | VOID
   | VIRG
-  | UNDEFINED
   | TRUE
   | SLASH
   | RETURN
