@@ -16,6 +16,9 @@ let pathFichiersRat = "../../../../../tests/type/sans_fonction/fichiersRat/"
 let%test_unit "test.rat" =
   let _ = compiler (pathFichiersRat^"test.rat") in ()
 
+let%test_unit "testVoidSujet.rat" =
+  let _ = compiler (pathFichiersRat^"testVoidSujet.rat") in ()
+
 let%test_unit "testPasPointeur.rat" =
   try
     let _ = compiler (pathFichiersRat^"testPasPointeur.rat")

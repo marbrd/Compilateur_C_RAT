@@ -14,6 +14,18 @@ let pathFichiersRat = "../../../../../tests/gestion_id/sans_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "test.rat" =
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
+
+let%test_unit "testVoidSujet.rat" =
+  let _ = compiler (pathFichiersRat^"testVoidSujet.rat") in ()
+
+let%test_unit "testDeref.rat" =
+  let _ = compiler (pathFichiersRat^"testDeref.rat") in ()
+
+let%test_unit "testPointeurSurPointeur.rat" =
+  let _ = compiler (pathFichiersRat^"testPointeurSurPointeur.rat") in ()
+
 let%test_unit "testAffectation1" = 
   let _ = compiler (pathFichiersRat^"testAffectation1.rat") in ()
 
@@ -33,15 +45,6 @@ let%test_unit "testAffectation4" =
     in raise ErreurNonDetectee
   with
   | MauvaiseUtilisationIdentifiant("x") -> ()
-
-let%test_unit "test.rat" =
-  let _ = compiler (pathFichiersRat^"test.rat") in ()
-
-let%test_unit "testDeref.rat" =
-  let _ = compiler (pathFichiersRat^"testDeref.rat") in ()
-
-let%test_unit "testPointeurSurPointeur.rat" =
-  let _ = compiler (pathFichiersRat^"testPointeurSurPointeur.rat") in ()
 
 let%test_unit "testUtilisation1" = 
   let _ = compiler (pathFichiersRat^"testUtilisation1.rat") in ()

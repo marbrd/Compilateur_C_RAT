@@ -120,6 +120,14 @@ let rec analyse_code_instruction i =
     analyse_code_expression e
     ^ return tailleRet tailleParam
   | AstPlacement.Empty -> ""
+  | AstPlacement.AppelProcedure (info, le) -> 
+    let cle = List.fold_right (fun e acc -> (analyse_code_expression e)^acc) le "" in
+    begin
+      match info_ast_to_info info with 
+      | InfoFun (n,Void,_) -> cle^(call "SB" n)
+      | _ -> failwith "erreur interne"
+    end
+  | AstPlacement.FinVoid -> halt
 
 and analyse_code_bloc (li, taille) = 
   List.fold_right (fun e acc -> (analyse_code_instruction e)^acc) li "" 

@@ -110,6 +110,18 @@ let rec analyse_type_instruction i =
       | _ -> failwith "errer interne"
     end 
   | AstTds.Empty -> AstType.Empty
+  | AstTds.AppelProcedure (info, le) -> 
+    let nle = List.map analyse_type_expression le in
+    let (lp, tlp) = List.split nle in
+    begin
+      match (info_ast_to_info info) with
+      | InfoFun (_,Void,tp) -> 
+        if est_compatible_list tp tlp then AstType.AppelProcedure (info, lp)
+        else raise (TypesParametresInattendus(tp,tlp))
+      | _ -> failwith "erreur interne"
+    end
+  | AstTds.FinVoid -> AstType.FinVoid
+  
 and analyse_type_bloc li = 
   List.map analyse_type_instruction li
 

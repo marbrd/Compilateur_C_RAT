@@ -47,7 +47,6 @@ end
 
 
 (* + passe de résolution des identifiants *)
-
 (*module CompilateurRat = Compilateur (PasseTdsRat) (PasseTypeNop) (PassePlacementNop) (PasseCodeNop)*)
 
 

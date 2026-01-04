@@ -68,6 +68,10 @@ and instruction =
   | TantQue of expression * bloc
   (* return d'une fonction *)
   | Retour of expression
+  (*Appel de procedure représenté par le nom de la procedure et la liste des paramètres réels*)
+  | AppelProcedure of string * expression list
+  (* Fin de la procedure *)
+  | FinVoid
 
 (* Structure des fonctions de Rat *)
 (* type de retour - nom - liste des paramètres (association type et nom) - corps de la fonction *)
@@ -116,6 +120,8 @@ struct
     | TantQue of expression * bloc
     | Retour of expression * Tds.info_ast  (* les informations sur la fonction à laquelle est associé le retour *)
     | Empty (* les nœuds ayant disparus: Const *)
+    | AppelProcedure of Tds.info_ast * expression list
+    | FinVoid
 
 
   (* Structure des fonctions dans notre langage *)
@@ -169,6 +175,8 @@ type bloc = instruction list
   | TantQue of expression * bloc
   | Retour of expression * Tds.info_ast
   | Empty (* les nœuds ayant disparus: Const *)
+  | AppelProcedure of Tds.info_ast * expression list
+  | FinVoid
 
 (* informations associées à l'identificateur (dont son nom), liste des paramètres, corps *)
 type fonction = Fonction of Tds.info_ast * Tds.info_ast list * bloc
@@ -201,6 +209,8 @@ type bloc = instruction list * int (* taille du bloc *)
  | TantQue of expression * bloc
  | Retour of expression * int * int (* taille du retour et taille des paramètres *)
  | Empty (* les nœuds ayant disparus: Const *)
+ | AppelProcedure of Tds.info_ast * expression list
+ | FinVoid
 
 (* informations associées à l'identificateur (dont son nom), liste de paramètres, corps, expression de retour *)
 (* Plus besoin de la liste des paramètres mais on la garde pour les tests du placements mémoire *)

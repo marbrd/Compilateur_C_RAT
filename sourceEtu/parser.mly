@@ -67,6 +67,7 @@ param : t=typ n=ID  {(t,n)}
 bloc : AO li=i* AF      {li}
 
 i :
+| n=ID PO lp=separated_list(VIRG,e) PF PV  {AppelProcedure (n,lp)}
 | t=typ n=ID EQUAL e1=e PV          {Declaration (t,n,e1)}
 | aff=a EQUAL e1=e PV               {Affectation (aff,e1)}
 | CONST n=ID EQUAL e=ENTIER PV      {Constante (n,e)}
@@ -74,6 +75,7 @@ i :
 | IF exp=e li1=bloc ELSE li2=bloc   {Conditionnelle (exp,li1,li2)}
 | WHILE exp=e li=bloc               {TantQue (exp,li)}
 | RETURN exp=e PV                   {Retour (exp)}
+| RETURN PV                         {FinVoid}
 
 typ :
 | BOOL          {Bool}

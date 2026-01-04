@@ -170,7 +170,20 @@ let rec analyse_tds_instruction tds oia i =
   | AstSyntax.Affectation (aff,e) ->
     let naff = analyse_tds_affectable tds aff false in
     let ne = analyse_tds_expression tds e in
-    AstTds.Affectation (naff, ne)
+    AstTds.Affectation (naff, ne) 
+  | AstSyntax.AppelProcedure (id, le) -> 
+    begin
+      match chercherGlobalement tds id with
+      | None -> raise (IdentifiantNonDeclare id)
+      | Some a -> 
+      begin 
+        match info_ast_to_info a with
+        | InfoFun (_,Void,_) -> let nle = List.map (analyse_tds_expression tds) le in
+          AstTds.AppelProcedure (a,nle)
+        | _ -> raise (MauvaiseUtilisationIdentifiant id)
+      end
+    end
+  | AstSyntax.FinVoid -> AstTds.FinVoid
 
 
 
@@ -203,7 +216,8 @@ let analyse_tds_fonction maintds (AstSyntax.Fonction(t,n,lp,li))  =
     | Some _ -> raise (DoubleDeclaration n)
     | None -> 
       let (tp, _) = List.split lp in
-      let infofonction = info_to_info_ast (InfoFun (n, Undefined, List.map (fun _ -> Undefined) tp)) in
+      let tt = if t = Void then t else Undefined in
+      let infofonction = info_to_info_ast (InfoFun (n, tt, List.map (fun _ -> Undefined) tp)) in
       let _ = ajouter maintds n infofonction in
       let tdsfonction = creerTDSFille maintds in
       let nlp = List.map 

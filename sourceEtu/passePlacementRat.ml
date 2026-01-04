@@ -31,6 +31,8 @@ let rec analyse_placement_instruction i depl reg =
   | AstType.AffichageRat e -> (AstPlacement.AffichageRat e, 0)
   | AstType.AffichageBool e -> (AstPlacement.AffichageBool e, 0)
   | AstType.Empty -> (AstPlacement.Empty, 0)
+  | AstType.AppelProcedure (info, le) -> (AstPlacement.AppelProcedure (info, le), 0)
+  | AstType.FinVoid -> (AstPlacement.FinVoid, 0)
 
 and analyse_placement_bloc li depl reg = 
   begin

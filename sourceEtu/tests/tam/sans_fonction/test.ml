@@ -96,3 +96,7 @@ let%expect_test "testP" =
 let%expect_test "testSujet" =
   runtam (pathFichiersRat^"testSujet.rat");
   [%expect{| 423 |}]
+
+let%expect_test "testVoidSujet" =
+  runtam (pathFichiersRat^"testVoidSujet.rat");
+  [%expect{| [1/2][3/4][5/4] |}]
