@@ -14,6 +14,12 @@ let pathFichiersRat = "../../../../../tests/gestion_id/avec_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "testEnumSujet"= 
+  let _ = compiler (pathFichiersRat^"testEnumSujet.rat") in ()
+
+let%test_unit "testRefSujet"= 
+  let _ = compiler (pathFichiersRat^"testRefSujet.rat") in ()
+
 let%test_unit "testDoubleDeclarationVariable1" = 
   try 
     let _ = compiler (pathFichiersRat^"testDoubleDeclarationVariable1.rat")

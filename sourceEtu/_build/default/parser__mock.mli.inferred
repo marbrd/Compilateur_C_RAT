@@ -1,0 +1,66 @@
+type token =
+    WHILE
+  | VOID
+  | VIRG
+  | TRUE
+  | TID of string
+  | SLASH
+  | RETURN
+  | REF
+  | RAT
+  | PV
+  | PRINT
+  | PO
+  | PLUS
+  | PF
+  | NUM
+  | NULL
+  | NEW
+  | MULT
+  | INT
+  | INF
+  | IF
+  | ID of string
+  | FALSE
+  | ESPERLUETTE
+  | EQUAL
+  | EOF
+  | ENUM
+  | ENTIER of int
+  | ELSE
+  | DENOM
+  | CONST
+  | CO
+  | CF
+  | BOOL
+  | AO
+  | AF
+val menhir_begin_marker : int
+val xv_typ : Type.typ
+val xv_separated_nonempty_list_VIRG_param_ :
+  ((Type.typ * bool) * string) list
+val xv_separated_nonempty_list_VIRG_e_ : Ast.AstSyntax.expression list
+val xv_separated_nonempty_list_VIRG_TID_ : string list
+val xv_separated_list_VIRG_param_ : ((Type.typ * bool) * string) list
+val xv_separated_list_VIRG_e_ : Ast.AstSyntax.expression list
+val xv_separated_list_VIRG_TID_ : string list
+val xv_ref : bool
+val xv_prog : Ast.AstSyntax.programme
+val xv_param : (Type.typ * bool) * string
+val xv_main : Ast.AstSyntax.enums * Ast.AstSyntax.programme
+val xv_loption_separated_nonempty_list_VIRG_param__ :
+  ((Type.typ * bool) * string) list
+val xv_loption_separated_nonempty_list_VIRG_e__ :
+  Ast.AstSyntax.expression list
+val xv_loption_separated_nonempty_list_VIRG_TID__ : string list
+val xv_list_i_ : Ast.AstSyntax.bloc
+val xv_list_fonc_ : Ast.AstSyntax.fonction list
+val xv_list_enum_ : Ast.AstSyntax.enumeration list
+val xv_i : Ast.AstSyntax.instruction
+val xv_fonc : Ast.AstSyntax.fonction
+val xv_enums : Ast.AstSyntax.enums
+val xv_enum : Ast.AstSyntax.enumeration
+val xv_e : Ast.AstSyntax.expression
+val xv_bloc : Ast.AstSyntax.bloc
+val xv_a : Ast.AstSyntax.affectable
+val menhir_end_marker : int
