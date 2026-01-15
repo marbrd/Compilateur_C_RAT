@@ -80,4 +80,3 @@ let%expect_test "CombinaisonSujet" =
 let%expect_test "Combinaison1" =
   runtam (pathFichiersRat^"testCombinaison1.rat");
   [%expect{| 1257223336 |}]
-  
