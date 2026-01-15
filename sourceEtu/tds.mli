@@ -9,8 +9,8 @@ type info =
   | InfoVar of string * (typ*bool) * int * string
   (* Information associée à une fonction : son nom (utile pour l'appel), son type de retour et la liste des types des paramètres *)
   | InfoFun of string * typ * (typ*bool) list
-  (* Information associé à un type énuméré : son nom et ses valeurs*)
-  | InfoEnum of string * string list
+  (* Information associé à un type énuméré : son nom*)
+  | InfoEnum of string
   (* Information associé à une valeur d'un type énuméré : son nom, le nom de son type énuméré, l'ordre dans le type énuméré *)
   | InfoValeurEnum of string * string * int
 

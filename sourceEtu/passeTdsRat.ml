@@ -278,7 +278,7 @@ let analyse_tds_enumeration maintds (AstSyntax.Enumeration(tid,le)) =
       end
     in 
     let _ = List.map check le in
-    let infotid = info_to_info_ast (InfoEnum (tid,le)) in ajouter maintds tid infotid;
+    let infotid = info_to_info_ast (InfoEnum tid) in ajouter maintds tid infotid;
     let infovenum = 
       List.mapi 
       (fun i v -> 

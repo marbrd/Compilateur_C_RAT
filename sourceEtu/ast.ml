@@ -86,10 +86,11 @@ type fonction = Fonction of typ * string * ((typ* bool) * string) list * bloc
 (* liste de fonction - programme principal *)
 type programme = Programme of fonction list * bloc
 
-(* Structure des énumerations *)
+(* Structure d'une énumeration *)
 (* identifiant - valeurs *)
 type enumeration = Enumeration of string * string list
 
+(* List des énumerations *)
 type enums = Enums of enumeration list
 
 end
@@ -134,7 +135,7 @@ struct
     | Retour of expression * Tds.info_ast  (* les informations sur la fonction à laquelle est associé le retour *)
     | Empty (* les nœuds ayant disparus: Const *)
     | AppelProcedure of Tds.info_ast * expression list
-    | FinVoid of Tds.info_ast
+    | FinVoid of Tds.info_ast (* les informations sur la procedure à laquelle est associé le retour (la fin du void) *)
 
 
   (* Structure des fonctions dans notre langage *)
@@ -144,6 +145,7 @@ struct
   (* Structure d'un programme dans notre langage *)
   type programme = Programme of fonction list * bloc
 
+  (* Structure d'une énumeration *)
   type enumeration = Enumeration of Tds.info_ast * Tds.info_ast list
 
   type enums = Enums of enumeration list
@@ -214,8 +216,6 @@ end
 module AstPlacement =
 struct
 
-(* Expressions existantes dans notre langage *)
-(* = expression de AstType  *)
 type expression = AstType.expression
 type affectable = AstType.affectable
 type enumeration = AstTds.enumeration

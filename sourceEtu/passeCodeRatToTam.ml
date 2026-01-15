@@ -4,7 +4,7 @@ open Type
 open Ast
 open Tds
 
-type t1 = Ast.AstPlacement.enums*Ast.AstPlacement.programme
+type t1 = Ast.AstPlacement.programme
 type t2 = string
 
 let rec analyse_code_affectable aff lec = 
@@ -156,7 +156,7 @@ let analyse_code_fonction (AstPlacement.Fonction(info,_,(li,_))) =
     ^ halt
   | _ -> failwith "erreur interne"
 
-let analyser (_,AstPlacement.Programme (fonctions, prog)) =
+let analyser (AstPlacement.Programme (fonctions, prog)) =
   getEntete()
   ^ (List.fold_right (fun f acc -> (analyse_code_fonction f)^acc) fonctions "") 
   ^ label "main"

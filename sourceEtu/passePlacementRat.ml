@@ -2,8 +2,8 @@ open Type
 open Tds
 open Ast
 
-type t1 = Ast.AstType.enums*Ast.AstType.programme
-type t2 = Ast.AstPlacement.enums*Ast.AstPlacement.programme
+type t1 = Ast.AstType.programme
+type t2 = Ast.AstPlacement.programme
 
 let rec analyse_placement_instruction i depl reg =
   match i with 
@@ -67,7 +67,7 @@ let analyse_placement_fonction (AstType.Fonction (info, lp, li)) =
   aux (List.rev lp) 0;
   (AstPlacement.Fonction(info, lp, nli))
   
-let analyser (AstTds.Enums tids,AstType.Programme (fonctions, prog)) =
+let analyser (AstType.Programme (fonctions, prog)) =
   let nfs = List.map analyse_placement_fonction fonctions in 
   let nprog = analyse_placement_bloc prog 0 "SB" in
-  (AstTds.Enums tids, AstPlacement.Programme (nfs, nprog))
+  AstPlacement.Programme (nfs, nprog)

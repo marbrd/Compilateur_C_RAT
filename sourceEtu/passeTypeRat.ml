@@ -4,7 +4,7 @@ open Exceptions
 open Ast
 
 type t1 = Ast.AstTds.enums*Ast.AstTds.programme
-type t2 = Ast.AstType.enums*Ast.AstType.programme
+type t2 = Ast.AstType.programme
 
 let rec analyse_type_affectable aff =
   match aff with
@@ -156,7 +156,7 @@ let analyse_type_fonction (AstTds.Fonction(t,info,lp,li)) =
 let analyse_type_fonctions lf = 
   List.map analyse_type_fonction lf
 
-let analyser (AstTds.Enums tids,AstTds.Programme (fonctions, prog)) =
+let analyser (_,AstTds.Programme (fonctions, prog)) =
   let nfs = analyse_type_fonctions fonctions in
   let nprog = analyse_type_bloc prog in
-  (AstTds.Enums tids, AstType.Programme (nfs, nprog))
+  AstType.Programme (nfs, nprog)

@@ -11,7 +11,7 @@ sig
   val analyser : t1 -> t2
 end
 
-(* Passe AstSyntax.programme -> AstTds.programme *)
+(* Passe AstSyntax.enums*AstSyntax.programme -> AstTds.enums*AstTds.programme *)
 (* Ne fait rien *)
 (* Nécessaire aux compilateurs intermédiaires (non complets) *)
 module PasseTdsNop : Passe  with type t1 = Ast.AstSyntax.enums*Ast.AstSyntax.programme and type t2 = Ast.AstTds.enums*Ast.AstTds.programme =
@@ -23,36 +23,36 @@ struct
 
 end
 
-(* Passe AstTds.programme -> AstType.programme *)
+(* Passe AstTds.enums*AstTds.programme -> AstType.programme *)
 (* Ne fait rien *)
 (* Nécessaire aux compilateurs intermédiaires (non complets) *)
-module PasseTypeNop : Passe  with type t1 = Ast.AstTds.enums*Ast.AstTds.programme and type t2 = Ast.AstType.enums*Ast.AstType.programme =
+module PasseTypeNop : Passe  with type t1 = Ast.AstTds.enums*Ast.AstTds.programme and type t2 = Ast.AstType.programme =
 struct
   type t1 = Ast.AstTds.enums*Ast.AstTds.programme
-  type t2 =  Ast.AstType.enums*Ast.AstType.programme
+  type t2 =  Ast.AstType.programme
 
-  let analyser _ =  (Ast.AstTds.Enums [],Ast.AstType.Programme([],[]))
+  let analyser _ =  Ast.AstType.Programme([],[])
 
 end
 
-(* Passe AstType.programme -> unit *)
+(* Passe AstType.programme -> AstPlacement.programme *)
 (* Ne fait rien *)
 (* Nécessaire aux compilateurs intermédiaires (non complets) *)
-module PassePlacementNop : Passe  with type t1 = Ast.AstType.enums*Ast.AstType.programme and type t2 = Ast.AstPlacement.enums*Ast.AstPlacement.programme =
+module PassePlacementNop : Passe  with type t1 = Ast.AstType.programme and type t2 = Ast.AstPlacement.programme =
 struct
-  type t1 = Ast.AstType.enums*Ast.AstType.programme
-  type t2 = Ast.AstPlacement.enums*Ast.AstPlacement.programme
+  type t1 = Ast.AstType.programme
+  type t2 = Ast.AstPlacement.programme
 
-  let analyser _ = (Ast.AstTds.Enums [],Ast.AstPlacement.Programme([],([],0)))
+  let analyser _ = Ast.AstPlacement.Programme([],([],0))
 
 end
 
 (* Passe AstPlacement.programme -> string *)
 (* Ne fait rien *)
 (* Nécessaire aux compilateurs intermédiaires (non complets) *)
-module PasseCodeNop : Passe  with type t1 = Ast.AstPlacement.enums*Ast.AstPlacement.programme and type t2 = string =
+module PasseCodeNop : Passe  with type t1 = Ast.AstPlacement.programme and type t2 = string =
 struct
-  type t1 = Ast.AstPlacement.enums*Ast.AstPlacement.programme
+  type t1 = Ast.AstPlacement.programme
   type t2 = string
 
   let analyser _ = ""
@@ -96,7 +96,7 @@ let analyser_param info =
     | _ -> failwith "Internal error"
 
   (* Renvoie la suite des adresses des variables déclarées dans les fonctions et dans le programme principal *)
-  let analyser (_,Ast.AstPlacement.Programme (fonctions, (prog,_))) =
+  let analyser (Ast.AstPlacement.Programme (fonctions, (prog,_))) =
     ("main", List.flatten (List.map (analyser_instruction) prog))::(List.flatten (List.map (analyser_fonction) fonctions))
 
 end

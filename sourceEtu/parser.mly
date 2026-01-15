@@ -15,7 +15,6 @@ open Ast.AstSyntax
 %token AO
 %token AF
 %token PF
-%token VOID
 %token PO
 %token EQUAL
 %token CONST
@@ -39,6 +38,7 @@ open Ast.AstSyntax
 %token NEW
 %token NULL
 %token ESPERLUETTE
+%token VOID
 %token REF
 %token ENUM 
 %token <string> TID

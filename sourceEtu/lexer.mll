@@ -24,14 +24,14 @@
         "bool",    BOOL;
         "int",     INT;
         "rat",     RAT;
-        "void",    VOID;
         "num",     NUM;
         "denom",   DENOM;
         "true",    TRUE;
         "false",   FALSE;
+        "return",  RETURN;
         "new",     NEW;
         "null",    NULL;
-        "return",  RETURN;
+        "void",    VOID;
         "ref",     REF;
         "enum",    ENUM
       ];

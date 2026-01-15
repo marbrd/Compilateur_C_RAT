@@ -6,7 +6,7 @@ type info =
   | InfoConst of string * int
   | InfoVar of string * (typ * bool) * int * string
   | InfoFun of string * typ * (typ * bool) list
-  | InfoEnum of string * string list
+  | InfoEnum of string
   | InfoValeurEnum of string * string * int
 
 (* Données stockées dans la tds  et dans les AST : pointeur sur une information *)
@@ -52,114 +52,127 @@ let chercherLocalement tds nom =
   | Nulle -> None
   | Courante (_,c) ->  find_opt c nom 
 
-(* TESTS 
+(* TESTS *)
 let%test _ = chercherLocalement (creerTDSMere()) "x" = None
 let%test _ = 
   let tds = creerTDSMere() in
-  let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
-  let iy = info_to_info_ast (InfoVar ("y", (Int,false), 2, "SB")) in
+  let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+  let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
   ajouter tds "x" ix;
   ajouter tds "y" iy;
   chercherLocalement tds "x" = Some ix
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     chercherLocalement tds "y" = Some iy
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     chercherLocalement tds "z" = None
 let%test _ = 
   let tds = creerTDSMere() in
-  let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-  let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+  let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+  let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
   ajouter tds "x" ix;
   ajouter tds "y" iy;
   let tdsf = creerTDSFille(tds) in
-  let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-  let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+  let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+  let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
   ajouter tdsf "x" ix2;
   ajouter tdsf "z" iz;
   chercherLocalement tds "x" = Some ix
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tds "y" = Some iy
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tds "z" = None
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 2, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 3, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tdsf "y" = None
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 2, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 3, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tdsf "x" = Some ix2
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 2, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 3, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tdsf "z" = Some iz
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 2, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 3, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherLocalement tdsf "a" = None
-*)
+
+let%test _ = 
+    let tds = creerTDSMere() in
+    let ix = info_to_info_ast (InfoVar ("x", (Pointeur Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
+    ajouter tds "x" ix;
+    ajouter tds "y" iy;
+    let tdsf = creerTDSFille(tds) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 2, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 3, "LB")) in
+    ajouter tdsf "x" ix2;
+    ajouter tdsf "z" iz;
+    chercherLocalement tdsf "x" = Some ix2
+
 (* Recherche les informations d'un identificateur dans la tds globale *)
 (* Si l'identificateur n'est pas présent dans la tds de plus bas niveau *)
 (* la recherche est effectuée dans sa table mère et ainsi de suite *)
@@ -172,115 +185,114 @@ let rec chercherGlobalement tds nom =
       | Some _ as i -> i
       | None -> chercherGlobalement m nom 
 
-(* TESTS 
+(* TESTS *)
 
 let%test _ = chercherGlobalement (creerTDSMere()) "x" = None
 let%test _ = 
   let tds = creerTDSMere() in
-  let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-  let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+  let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+  let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
   ajouter tds "x" ix;
   ajouter tds "y" iy;
   chercherGlobalement tds "x" = Some ix
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
-    ajouter tds "x" ix;
-    ajouter tds "y" iy;
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+  let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
+  ajouter tds "x" ix;
+  ajouter tds "y" iy;
     chercherGlobalement tds "y" = Some iy
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,true), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,false), 1, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     chercherGlobalement tds "z" = None
 let%test _ = 
   let tds = creerTDSMere() in
-  let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-  let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+  let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+  let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
   ajouter tds "x" ix;
   ajouter tds "y" iy;
   let tdsf = creerTDSFille(tds) in
-  let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-  let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+  let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+  let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
   ajouter tdsf "x" ix2;
   ajouter tdsf "z" iz;
   chercherGlobalement tds "x" = Some ix
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tds "y" = Some iy
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tds "z" = None
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tdsf "y" = Some iy
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tdsf "x" = Some ix2
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tdsf "z" = Some iz
 let%test _ = 
     let tds = creerTDSMere() in
-    let ix = info_to_info_ast (InfoVar ("x", Rat, 0, "SB")) in
-    let iy = info_to_info_ast (InfoVar ("y", Int, 2, "SB")) in
+    let ix = info_to_info_ast (InfoVar ("x", (Rat,false), 0, "SB")) in
+    let iy = info_to_info_ast (InfoVar ("y", (Int,true), 2, "SB")) in
     ajouter tds "x" ix;
     ajouter tds "y" iy;
     let tdsf = creerTDSFille(tds) in
-    let ix2 = info_to_info_ast (InfoVar ("x", Bool, 3, "LB")) in
-    let iz = info_to_info_ast (InfoVar ("z", Rat, 4, "LB")) in
+    let ix2 = info_to_info_ast (InfoVar ("x", (Bool,false), 3, "LB")) in
+    let iz = info_to_info_ast (InfoVar ("z", (Rat,false), 4, "LB")) in
     ajouter tdsf "x" ix2;
     ajouter tdsf "z" iz;
     chercherGlobalement tdsf "a" = None
-*)
 
 (* Convertie une info en une chaine de caractère - pour affichage *)
 let string_of_info info =
@@ -312,41 +324,40 @@ let modifier_type_variable t i =
     match !i with
     | InfoVar (n,_,dep,base) -> i:= InfoVar (n,t,dep,base)
     | _ -> failwith "Appel modifier_type_variable pas sur un InfoVar"
-(*
+
 let%test _ = 
-  let info = InfoVar ("x", Undefined, 4 , "SB") in
+  let info = InfoVar ("x", (Undefined,false), 4 , "SB") in
   let ia = info_to_info_ast info in
-  modifier_type_variable Rat ia;
+  modifier_type_variable (Rat,true) ia;
   match info_ast_to_info ia with
-  | InfoVar ("x", Rat, 4 , "SB") -> true
-  | _ -> false*)
+  | InfoVar ("x", (Rat,true), 4 , "SB") -> true
+  | _ -> false
  
 (* Modifie les types de retour et des paramètres si c'est une InfoFun, ne fait rien sinon *)
 let modifier_type_fonction t tp i =
        match !i with
        | InfoFun(n,_,_) -> i:= InfoFun(n,t,tp)
        | _ -> failwith "Appel modifier_type_fonction pas sur un InfoFun"
-(*
+
 let%test _ = 
   let info = InfoFun ("f", Undefined, []) in
   let ia = info_to_info_ast info in
-  modifier_type_fonction Rat [Int ; Int] ia;
+  modifier_type_fonction Rat [(Int,false) ; (Int,false)] ia;
   match info_ast_to_info ia with
-  | InfoFun ("f", Rat, [Int ; Int]) -> true
-  | _ -> false*)
+  | InfoFun ("f", Rat, [(Int,false) ; (Int,false)]) -> true
+  | _ -> false
  
 (* Modifie l'emplacement (dépl, registre) si c'est une InfoVar, ne fait rien sinon *)
  let modifier_adresse_variable d b i =
      match !i with
      |InfoVar (n,t,_,_) -> i:= InfoVar (n,t,d,b)
      | _ -> failwith "Appel modifier_adresse_variable pas sur un InfoVar"
-(*
+
 let%test _ = 
-  let info = InfoVar ("x", Rat, 4 , "SB") in
+  let info = InfoVar ("x", (Rat,false), 4 , "SB") in
   let ia = info_to_info_ast info in
   modifier_adresse_variable 10 "LB" ia;
   match info_ast_to_info ia with
-  | InfoVar ("x", Rat, 10 , "LB") -> true
+  | InfoVar ("x", (Rat,false), 10 , "LB") -> true
   | _ -> false
-    *)
    
