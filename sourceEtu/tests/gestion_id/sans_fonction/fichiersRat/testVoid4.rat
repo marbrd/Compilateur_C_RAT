@@ -1,0 +1,13 @@
+void test() {
+    print 1;
+    return;
+}
+
+void test() {
+    print 2;
+    return;
+}
+
+main {
+    test();
+}

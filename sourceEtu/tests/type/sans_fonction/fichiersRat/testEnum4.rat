@@ -1,0 +1,6 @@
+enum Couleur {Rouge, Vert, Bleu};
+
+main {
+  Couleur* pc = (new Couleur);
+  (*pc) = Vert;
+}

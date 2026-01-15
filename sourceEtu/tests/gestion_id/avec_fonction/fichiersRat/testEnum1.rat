@@ -1,0 +1,9 @@
+enum Couleur {Rouge, Vert, Bleu};
+
+Couleur obtenir() {
+    return Rouge;
+}
+
+main {
+    Couleur c = obtenir();
+}

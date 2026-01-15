@@ -14,11 +14,34 @@ let pathFichiersRat = "../../../../../tests/gestion_id/avec_fonction/fichiersRat
 (*  TESTS *)
 (**********)
 
+let%test_unit "test"= 
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
+
+let%test_unit "test2" = 
+  let _ = compiler (pathFichiersRat^"test2.rat") in ()
+
+(* test Pointeur et procedure *)
+
+let%test_unit "testPointeurVoid"= 
+  let _ = compiler (pathFichiersRat^"testPointeurVoid.rat") in ()
+
+let%test_unit "testPointeur1"= 
+  let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
+
+(* test type énumére *)
+
 let%test_unit "testEnumSujet"= 
   let _ = compiler (pathFichiersRat^"testEnumSujet.rat") in ()
 
+let%test_unit "testEnum1"= 
+  let _ = compiler (pathFichiersRat^"testEnum1.rat") in ()
+
+(* test passage des paramètres par réferences *)
+
 let%test_unit "testRefSujet"= 
   let _ = compiler (pathFichiersRat^"testRefSujet.rat") in ()
+
+(*************************)
 
 let%test_unit "testDoubleDeclarationVariable1" = 
   try 
@@ -181,12 +204,6 @@ with
 
 let%test_unit "testRecursiviteFonction" = 
 let _ = compiler (pathFichiersRat^"testRecursiviteFonction.rat") in ()
-
-let%test_unit "test"= 
-  let _ = compiler (pathFichiersRat^"test.rat") in ()
-
-let%test_unit "test2" = 
-  let _ = compiler (pathFichiersRat^"test2.rat") in ()
 
 let%test_unit "testRetourFonction"=
   try

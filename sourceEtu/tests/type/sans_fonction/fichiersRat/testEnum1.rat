@@ -1,0 +1,7 @@
+enum Couleur {Rouge, Vert, Bleu};
+enum Taille {Petit, Moyen, Grand};
+
+main {
+  Couleur c = Rouge;
+  Taille t = c; 
+}

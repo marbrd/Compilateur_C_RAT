@@ -1,0 +1,11 @@
+enum Couleur {Rouge, Vert, Bleu};
+
+void changerCouleur(ref Couleur c) {
+    c = Bleu;
+}
+
+main {
+    Couleur c = Rouge;
+    changerCouleur(ref c);
+    print c;
+}

@@ -1,0 +1,6 @@
+enum Couleur {Rouge, Vert, Bleu};
+enum Taille {Petit, Moyen, Grand};
+
+main {
+  bool b = (Rouge = Petit); 
+}

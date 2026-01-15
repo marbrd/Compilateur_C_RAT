@@ -1,0 +1,7 @@
+void foo() {
+    print 5;
+}
+
+main {
+    int* p = &foo;
+}

@@ -1,0 +1,8 @@
+void test(ref int x) {
+    x = 10;
+}
+
+main {
+    const c = 5;
+    test(ref c);
+}

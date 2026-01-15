@@ -45,6 +45,20 @@ let pathFichiersRat = "../../../../../tests/placement/sans_fonction/fichiersRat/
 (**********)
 
 
+let%test "test_x" = 
+   test (pathFichiersRat^"testPointeur.rat")  "main" ("x",1)  (0, "SB")
+|| test (pathFichiersRat^"testPointeur.rat")  "main" ("x",1)  (0, "LB")
+
+let%test "test_z" = 
+   test (pathFichiersRat^"testPointeur.rat")  "main" ("z",1)  (1, "SB")
+|| test (pathFichiersRat^"testPointeur.rat")  "main" ("z",1)  (1, "LB")
+
+let%test "test_y" = 
+   test (pathFichiersRat^"testPointeur.rat")  "main" ("y",1)  (2, "SB")
+|| test (pathFichiersRat^"testPointeur.rat")  "main" ("y",1)  (2, "LB")
+
+(***************************************************)
+
 let%test "test1_x" = 
    test (pathFichiersRat^"test1.rat")  "main" ("x",1)  (0,"SB")
 || test (pathFichiersRat^"test1.rat")  "main" ("x",1)  (0,"LB")
@@ -180,16 +194,4 @@ let%test "test7_y1" =
 let%test "test7_z1" = 
    test (pathFichiersRat^"test7.rat")  "main" ("z1",1)  (7, "SB")
 || test (pathFichiersRat^"test7.rat")  "main" ("z1",1)  (7, "LB")
-
-let%test "test_x" = 
-   test (pathFichiersRat^"testPointeur.rat")  "main" ("x",1)  (0, "SB")
-|| test (pathFichiersRat^"testPointeur.rat")  "main" ("x",1)  (0, "LB")
-
-let%test "test_z" = 
-   test (pathFichiersRat^"testPointeur.rat")  "main" ("z",1)  (1, "SB")
-|| test (pathFichiersRat^"testPointeur.rat")  "main" ("z",1)  (1, "LB")
-
-let%test "test_y" = 
-   test (pathFichiersRat^"testPointeur.rat")  "main" ("y",1)  (2, "SB")
-|| test (pathFichiersRat^"testPointeur.rat")  "main" ("y",1)  (2, "LB")
 

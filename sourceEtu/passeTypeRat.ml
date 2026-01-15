@@ -32,7 +32,7 @@ let rec analyse_type_expression e =
       match (info_ast_to_info info) with
       | InfoFun (_,tr,tp) -> 
         if est_compatible_list tp tlp then (AstType.AppelFonction (info, lp), (tr,false))
-        else raise (TypesParametresInattendus(tp,tlp))
+        else raise (TypesParametresInattendus(tlp,tp))
       | _ -> failwith "erreur interne"
     end
   | AstTds.Affectable aff -> 
@@ -137,7 +137,7 @@ let rec analyse_type_instruction i =
       match (info_ast_to_info info) with
       | InfoFun (_,Void,tp) -> 
         if est_compatible_list tp tlp then AstType.AppelProcedure (info, lp)
-        else raise (TypesParametresInattendus(tp,tlp))
+        else raise (TypesParametresInattendus(tlp,tp))
       | _ -> failwith "erreur interne"
     end
   | AstTds.FinVoid info -> AstType.FinVoid info

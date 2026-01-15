@@ -24,7 +24,7 @@ let rec analyse_tds_affectable tds a lec =
         end 
       end
     | AstSyntax.Deref r -> 
-      let nr = analyse_tds_affectable tds r lec in 
+      let nr = analyse_tds_affectable tds r false in 
       AstTds.Deref nr
     
 
@@ -87,8 +87,8 @@ let rec analyse_tds_expression tds e =
         begin
           match aff with
           | AstSyntax.Ident _ ->
-            let ne = analyse_tds_expression tds e1 in
-            AstTds.Reference ne
+            let ne = analyse_tds_affectable tds aff false in
+            AstTds.Reference (AstTds.Affectable ne)
           | _ -> raise MauvaiseUtilisationReference
         end
       | _ -> raise MauvaiseUtilisationReference
@@ -188,9 +188,14 @@ let rec analyse_tds_instruction tds oia i =
       | None -> raise RetourDansMain
         (* Il y a une information -> l'instruction est dans une fonction *)
       | Some ia ->
-        (* Analyse de l'expression *)
-        let ne = analyse_tds_expression_not_ref tds e in
-        AstTds.Retour (ne,ia)
+        begin
+          match info_ast_to_info ia with
+          | InfoFun(_,Void,_) -> raise RetourDansProcedure
+          | _ ->
+            (* Analyse de l'expression *)
+            let ne = analyse_tds_expression_not_ref tds e in
+            AstTds.Retour (ne,ia)
+        end
       end
   | AstSyntax.Affectation (aff,e) ->
     let naff = analyse_tds_affectable tds aff false in
@@ -214,7 +219,7 @@ let rec analyse_tds_instruction tds oia i =
       | None -> raise RetourDansMain
       | Some ia ->
         AstTds.FinVoid ia
-      end
+    end
 
 
 
@@ -270,20 +275,17 @@ let analyse_tds_enumeration maintds (AstSyntax.Enumeration(tid,le)) =
   match chercherGlobalement maintds tid with
   | Some _ -> raise (DoubleDeclaration tid)
   | None ->
-    let check v = 
-      begin
-        match chercherGlobalement maintds v with
-        | Some _ -> raise (DoubleDeclaration v)
-        | None -> true
-      end
-    in 
-    let _ = List.map check le in
     let infotid = info_to_info_ast (InfoEnum tid) in ajouter maintds tid infotid;
     let infovenum = 
       List.mapi 
       (fun i v -> 
-        let info = info_to_info_ast (InfoValeurEnum (v,tid,i)) in 
-        ajouter maintds v info; info
+        begin
+          match chercherGlobalement maintds v with
+          | Some _ -> raise (DoubleDeclaration v)
+          | None -> 
+            let info = info_to_info_ast (InfoValeurEnum (v,tid,i)) in 
+            ajouter maintds v info; info
+        end
       ) le in
     AstTds.Enumeration (infotid,infovenum)
 

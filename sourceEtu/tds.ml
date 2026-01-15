@@ -6,7 +6,7 @@ type info =
   | InfoConst of string * int
   | InfoVar of string * (typ * bool) * int * string
   | InfoFun of string * typ * (typ * bool) list
-  | InfoEnum of string
+  | InfoEnum of string 
   | InfoValeurEnum of string * string * int
 
 (* Données stockées dans la tds  et dans les AST : pointeur sur une information *)

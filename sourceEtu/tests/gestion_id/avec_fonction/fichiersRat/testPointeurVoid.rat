@@ -1,0 +1,10 @@
+void incr(int* p) {
+    (*p) = ((*p) + 1);
+}
+
+main {
+    int x = 5;
+    int* px = &x;
+    incr(px);
+    print (*px);
+}

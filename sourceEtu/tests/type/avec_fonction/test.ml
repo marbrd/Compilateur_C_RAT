@@ -14,6 +14,12 @@ let pathFichiersRat = "../../../../../tests/type/avec_fonction/fichiersRat/"
 (*  TESTS *)
 (**********)
 
+let%test_unit "testPointeur1"= 
+  let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
+
+let%test_unit "test"= 
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
+
 let%test_unit "testEnumSujet"= 
   let _ = compiler (pathFichiersRat^"testEnumSujet.rat") in ()
 
@@ -22,6 +28,8 @@ let%test_unit "testRefSujet"=
 
 let%test_unit "test2"= 
   let _ = compiler (pathFichiersRat^"test2.rat") in ()
+
+(**************************)
 
 let%test_unit "testAppel1"= 
   let _ = compiler (pathFichiersRat^"testAppel1.rat") in ()
@@ -116,9 +124,6 @@ let%test_unit "testRetourFonction4"=
 
 let%test_unit "testRecursiviteFonction"= 
   let _ = compiler (pathFichiersRat^"testRecursiviteFonction.rat") in ()
-
-let%test_unit "test"= 
-  let _ = compiler (pathFichiersRat^"test.rat") in ()
 
 let%test_unit "code_factrec" = 
 let _ = compiler   (pathFichiersRat^"factrec.rat") in ()

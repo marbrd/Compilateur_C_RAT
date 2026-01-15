@@ -3,7 +3,7 @@ int plus1 (int a, int b){
   return (a+(b+c));
 }
 
-fonction{
+main {
   int x = 3;
   int y = 4;
   print plus1 (x, y);

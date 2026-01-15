@@ -1,0 +1,8 @@
+void proc() {
+    print 5;
+    return;
+}
+
+main {
+    int x = proc();
+}

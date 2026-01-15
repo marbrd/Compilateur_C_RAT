@@ -13,11 +13,49 @@ let pathFichiersRat = "../../../../../tests/type/sans_fonction/fichiersRat/"
 (**********)
 (*  TESTS *)
 (**********)
-let%test_unit "test.rat" =
-  let _ = compiler (pathFichiersRat^"test.rat") in ()
 
-let%test_unit "testVoidSujet.rat" =
-  let _ = compiler (pathFichiersRat^"testVoidSujet.rat") in ()
+(* tests pointeur *)
+
+let%test_unit "testPointeur1.rat" =
+  let _ = compiler (pathFichiersRat^"testPointeur1.rat") in ()
+
+let%test_unit "testPointeur2.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPointeur2.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Pointeur Bool, Pointeur Int) -> () 
+
+let%test_unit "testPointeur3.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPointeur3.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Int, Pointeur Int) -> () 
+
+let%test_unit "testPointeur4.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPointeur4.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Int, Bool) -> () 
+
+let%test_unit "testPointeur5.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPointeur5.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu(Pointeur (Pointeur Int), Pointeur Int) -> () 
+
+let%test_unit "testPointeur6.rat" =
+  let _ = compiler (pathFichiersRat^"testPointeur6.rat") in ()
+
+let%test_unit "testPointeur7.rat" =
+  try
+    let _ = compiler (pathFichiersRat^"testPointeur7.rat")
+    in raise ErreurNonDetectee
+  with
+  | TypeBinaireInattendu(_,Pointeur Int,Int) -> () 
 
 let%test_unit "testPasPointeur.rat" =
   try
@@ -31,6 +69,59 @@ let%test_unit "testDeref.rat" =
 
 let%test_unit "testPointeurSurPointeur.rat" =
   let _ = compiler (pathFichiersRat^"testPointeurSurPointeur.rat") in ()
+
+(* test procedure/references *)
+
+let%test_unit "testVoidSujet.rat" =
+  let _ = compiler (pathFichiersRat^"testVoidSujet.rat") in ()
+
+let%test_unit "testVoid1.rat" =
+  try 
+    let _ = compiler (pathFichiersRat^"testVoid1.rat") 
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu (_,_) -> ()
+
+let%test_unit "testVoidref1.rat" =
+  try 
+    let _ = compiler (pathFichiersRat^"testVoidRef1.rat") 
+    in raise ErreurNonDetectee
+  with
+  | TypesParametresInattendus ([(Int,false)],[(Int,true)]) -> ()
+
+let%test_unit "testVoidref2.rat" =
+  try 
+    let _ = compiler (pathFichiersRat^"testVoidRef2.rat") 
+    in raise ErreurNonDetectee
+  with
+  | TypesParametresInattendus ([(Int,true)],[(Int,false)]) -> ()
+
+(* tests type énuméré *)
+
+let%test_unit "testEnum1.rat" =
+  try 
+    let _ = compiler (pathFichiersRat^"testEnum1.rat") 
+    in raise ErreurNonDetectee
+  with
+  | TypeInattendu (Tenum "Couleur",Tenum "Taille") -> ()
+
+let%test_unit "testEnum2.rat" =
+  let _ = compiler (pathFichiersRat^"testEnum2.rat") in ()
+
+let%test_unit "testEnum3.rat" =
+  try 
+    let _ = compiler (pathFichiersRat^"testEnum3.rat") 
+    in raise ErreurNonDetectee
+  with
+  | TypeBinaireInattendu (_,Tenum "Couleur",Tenum "Taille") -> ()
+
+let%test_unit "testEnum4.rat" =
+  let _ = compiler (pathFichiersRat^"testEnum4.rat") in ()
+
+let%test_unit "test.rat" =
+  let _ = compiler (pathFichiersRat^"test.rat") in ()
+
+(*******************************)
 
 let%test_unit "testDeclaration1"= 
   let _ = compiler (pathFichiersRat^"testDeclaration1.rat") in ()

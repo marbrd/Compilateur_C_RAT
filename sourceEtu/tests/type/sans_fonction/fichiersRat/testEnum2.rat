@@ -1,0 +1,7 @@
+enum Couleur { Rouge, Vert, Bleu };
+
+main {
+  Couleur c1 = Rouge;
+  Couleur c2 = Vert;
+  bool b = (c1 = c2);  
+}

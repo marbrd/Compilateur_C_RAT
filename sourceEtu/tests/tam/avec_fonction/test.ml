@@ -73,6 +73,11 @@ let%expect_test "EnumSujet" =
   runtam (pathFichiersRat^"testEnumSujet.rat");
   [%expect{| falsetrue |}]
 
-let%expect_test "Combinaison" =
-  runtam (pathFichiersRat^"testCombinaison.rat");
+let%expect_test "CombinaisonSujet" =
+  runtam (pathFichiersRat^"testCombinaisonSujet.rat");
   [%expect{| 105101551051510751510 |}]
+
+let%expect_test "Combinaison1" =
+  runtam (pathFichiersRat^"testCombinaison1.rat");
+  [%expect{| 1257223336 |}]
+  

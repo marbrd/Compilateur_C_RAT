@@ -1,0 +1,14 @@
+void proc1() {
+    print 1;
+    return;
+}
+
+void proc2() {
+    proc1();
+    print 2;
+    return;
+}
+
+main {
+    proc2();
+}

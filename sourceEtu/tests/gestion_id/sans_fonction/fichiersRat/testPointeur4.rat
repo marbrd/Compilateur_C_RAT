@@ -1,0 +1,4 @@
+main {
+    const c = 42;
+    int* p = &c;
+}

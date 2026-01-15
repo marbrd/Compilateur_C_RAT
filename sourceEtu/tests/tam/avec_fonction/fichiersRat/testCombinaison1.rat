@@ -1,0 +1,106 @@
+enum Jour {Lundi, Mardi, Mercredi, Jeudi, Vendredi, Samedi, Dimanche};
+
+void prochainJour(ref Jour j) {
+    if (j = Lundi) {
+        j = Mardi;
+    } else {
+        if (j = Mardi) {
+            j = Mercredi;
+        } else {
+            if (j = Mercredi) {
+                j = Jeudi;
+            } else {
+                if (j = Jeudi) {
+                    j = Vendredi;
+                } else {
+                    if (j = Vendredi) {
+                        j = Samedi;
+                    } else {
+                        if (j = Samedi) {
+                            j = Dimanche;
+                        } else {
+                            if (j = Dimanche) {
+                                j = Lundi;
+                            } else {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return;
+}
+
+void afficherIndex(Jour j) {
+    if (j = Lundi) {
+        print 1;
+    } else {
+        if (j = Mardi) {
+            print 2;
+        } else {
+            if (j = Mercredi) {
+                print 3;
+            } else {
+                if (j = Jeudi) {
+                    print 4;
+                } else {
+                    if (j = Vendredi) {
+                        print 5;
+                    } else {
+                        if (j = Samedi) {
+                            print 6;
+                        } else {
+                            if (j = Dimanche) {
+                                print 7;
+                            } else {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return;
+}
+
+Jour* initialisationPointeurJour(Jour j){
+    Jour* p = (new Jour);
+    (*p) = j;
+    return p;
+}
+
+void afficherIndexeParPointeur(Jour* j){
+    afficherIndex((*j));
+    return;
+}
+
+main {
+    Jour j1 = Lundi;
+    Jour j2 = Mardi;
+    Jour j3 = Vendredi;
+
+    Jour* ptrJ1 = &j1;
+
+    afficherIndex(j1);
+    afficherIndex(j2);
+    afficherIndex(j3);
+
+    Jour* ptr = initialisationPointeurJour(Dimanche);
+    afficherIndexeParPointeur(ptr);
+
+
+    prochainJour(ref j1);
+    afficherIndex(j1);
+    afficherIndexeParPointeur(ptrJ1);
+
+    prochainJour(ref j1);
+    afficherIndex(j1);
+    afficherIndexeParPointeur(ptrJ1);
+
+
+    prochainJour(ref j2);
+    prochainJour(ref j3);
+
+    afficherIndex(j2);
+    afficherIndex(j3);
+
+}
