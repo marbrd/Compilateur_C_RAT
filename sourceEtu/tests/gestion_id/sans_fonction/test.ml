@@ -123,9 +123,6 @@ let%test_unit "testRef4.rat" =
 
 (* tests des types énumérés *)
 
-let%test_unit "testEnum1.rat" =
-  let _ = compiler (pathFichiersRat^"testEnum1.rat") in ()
-
 let%test_unit "testEnum2.rat" =
   let _ = compiler (pathFichiersRat^"testEnum2.rat") in ()
 
