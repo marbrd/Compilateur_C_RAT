@@ -93,6 +93,7 @@ dune utop .
 > open Compilateur ;;
 > compiler "fichiersRat/test.rat" ;;
 > compilerVersFichier "fichiersRat/test.rat" "out.tam";;
+```
 
 ```bash
 java -jar sourceEtu/tests/runtam.jar sortie.tam
